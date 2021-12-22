@@ -8,6 +8,32 @@
 \*------------------------------------*/
 
 :root {
+    /* Global colors */
+    --global-color-neutral-light: white;
+    --global-color-neutral-dark: black;
+
+    /* global page settings */
+    --global-html-color: var(--global-color-neutral-dark);
+    --global-html-backgroundColor: var(--global-color-neutral-light);
+    --global-selection-backgroundColor: var(--global-color-alpha);
+
+    /* borders */
+    --global-borderRadius: 16px;
+    --global-borderWidth: 1px;
+
+    /* transitions */
+    --global-transitionTiming-alpha: 1s ease-in-out;
+
+    /* Baseline settings */
+    --global-baseline: 8px;
+    --global-whitespace: calc(var(--global-baseline) * 3); /* = 24px */
+
+    --global-whitespace-xs: calc(var(--global-baseline) / 2); /* = 4px */
+    --global-whitespace-sm: calc(var(--global-baseline) * 1); /*  = 8px */
+    --global-whitespace-md: calc(var(--global-baseline) * 2); /*  = 16px */
+    --global-whitespace-lg: calc(var(--global-baseline) * 4); /*  = 32px */
+    --global-whitespace-xl: calc(var(--global-whitespace) * 2); /*  = 48px */
+    --global-whitespace-xxl: calc(var(--global-whitespace) * 3); /*  = 72px */
 }
 
 /* CSS variables here */
@@ -23,14 +49,14 @@
 */
 
 html {
-    font-size: 16px;
+    font-size: 100%;
     line-height: 1.5;
     font-family: "Bebas Neue", arial, sans-serif;
-    color: black;
+    color: var(--global-html-color);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f5f6fa;
+    background-color: var(--global-html-backgroundColor);
 }
 
 *,
@@ -47,14 +73,14 @@ html {
 */
 
 ::-moz-selection {
-    background: #3385ff;
-    color: white;
+    background: var(--global-html-color);
+    color: var(--global-html-backgroundColor);
     text-shadow: none;
 }
 
 ::selection {
-    background: #3385ff;
-    color: white;
+    background: var(--global-html-color);
+    color: var(--global-html-backgroundColor);
     text-shadow: none;
 }
 
@@ -79,38 +105,47 @@ img {
     Default markup for typographic elements
 */
 
-h1,
-h2,
-h3 {
-    font-weight: 600;
-}
-
 h1 {
-    font-size: 36px;
-    line-height: 48px;
-    margin: 0 0 24px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    /*margin: 0 0 24px;*/
+}
+@media (min-width: 30rem) {
+    h1 {
+        font-size: 2.25rem;
+        line-height: 3rem;
+    }
+}
+@media (min-width: 80rem) {
+    h1 {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
 }
 
 h2 {
-    font-size: 32px;
-    line-height: 40px;
-    margin: 0 0 24px;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 400;
+    margin: 0;
 }
 
-h3 {
-    font-size: 26px;
-    line-height: 32px;
-    margin: 0 0 24px;
+@media (min-width: 25rem) {
+    h2 {
+        font-size: 2rem;
+        line-height: 2.5rem;
+        margin: 0 0 1rem;
+    }
 }
 
-h4,
-h5,
-h6 {
-    font-size: 20px;
-    line-height: 24px;
-    margin: 0 0 24px;
+@media (min-width: 80rem) {
+    h2 {
+        font-size: 2.5rem;
+        line-height: 5rem;
+        margin: 0 0 1rem;
+    }
 }
-
 p,
 ol,
 ul,
@@ -118,7 +153,7 @@ dl,
 table,
 address,
 figure {
-    margin: 0 0 10px;
+    margin: 0 0 0.625rem;
 }
 
 ul,
@@ -135,47 +170,6 @@ li ol {
 input,
 label {
     display: block;
-}
-
-blockquote {
-    font-style: normal;
-    font-size: 23px;
-    line-height: 32px;
-    margin: 0 0 24px;
-}
-
-blockquote * {
-    font-size: inherit;
-    line-height: inherit;
-}
-
-figcaption {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    margin-top: 8px;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background: LightGrey;
-    margin: 0 0 24px;
-}
-
-a {
-    color: #3385ff;
-    transition: all 0.1s ease-in-out;
-}
-
-a:visited,
-a:active {
-    color: #75aaf8;
-}
-
-a:hover,
-a:focus {
-    color: #185abd;
 }
 
 /*------------------------------------*\
@@ -428,9 +422,19 @@ a:focus {
 /*------------------------------------*\
 #COMPONENTS
 \*------------------------------------*/
-.c-title{
+.c-title {
     padding: 1em;
     margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.c-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .c-app {
     min-height: 100vh;
@@ -438,24 +442,27 @@ a:focus {
     grid-template-rows: 7em 5fr 1fr 5fr;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 62rem) {
     .c-app {
         display: grid;
         grid-template-columns: 5fr 1fr 5fr;
+        grid-template-rows: 7em 1fr;
     }
 }
 .c-card {
-    width: 300px;
-    height: 250px;
-    margin: 48px auto 0 auto;
+    width: 15rem;
+    height: 12.5rem;
+    margin-bottom: 2em;
 }
 
 .c-card-title {
     display: flex;
     justify-content: center;
-    border-radius: 16px 16px 0 0;
+    align-items: center;
+    border-radius: var(--global-borderRadius) var(--global-borderRadius) 0 0;
     background-color: rgba(255, 255, 255, 0.5);
-    padding: 1em 1em 0 1em;
+    padding: 0.5em 0.5em 0 1em;
+    grid-gap: 1em;
 }
 
 .c-card-title-name {
@@ -463,9 +470,9 @@ a:focus {
 }
 
 .c-card-info {
-    min-width: 300px;
-    min-height: 200px;
-    perspective: 300px;
+    min-width: 15rem;
+    min-height: 15rem;
+    perspective: 15rem;
 }
 
 .c-card-toggle {
@@ -489,8 +496,8 @@ a:focus {
 }
 
 .c-image {
-    height: 150px;
-    width: 200px;
+    height: 7.5rem;
+    width: 10rem;
     object-fit: contain;
 }
 
@@ -499,55 +506,212 @@ a:focus {
     justify-content: center;
     align-items: center;
     background-color: white;
-    height: 200px;
-    width: 300px;
+    height: 12rem;
+    width: 15rem;
     margin: none;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 var(--global-borderRadius) var(--global-borderRadius);
 }
 
 .c-list-stats {
     background-color: white;
-    border-radius: 0 0 16px 16px;
-    height: 200px;
-    width: 300px;
+    border-radius: 0 0 var(--global-borderRadius) var(--global-borderRadius);
+    height: 12rem;
+    width: 15rem;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .c-list-item {
     display: grid;
-    grid-template-columns: 70px 130px auto;
+    grid-template-columns: 3rem 6rem auto;
 }
 
 .c-span-bar {
-    height: 20px;
+    height: 1.2rem;
     width: auto;
-    border-radius: 8px;
+    border-radius: calc(var(--global-borderRadius) / 2);
 }
 
 .c-span-value {
     margin-left: 0.5em;
     padding-left: 0.5em;
     border-left: 1px solid black;
-
 }
 
-.c-svg-fight {
+.c-symbol--switch {
+    height: 2rem;
+    padding: 0.25em;
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+}
+.c-symbol--switch:hover {
+    cursor: pointer;
+    fill: gray;
+}
+.c-symbol--reload {
+    width: 1.5rem;
+}
+
+.c-symbol--reload:hover {
+    border-bottom: 1px solid black;
+    border-radius: calc(var(--global-borderRadius) / 4);
+}
+.c-symbol--pokeball {
+    width: 1.5rem;
+    transform: translateY(0.2rem);
+}
+@media (min-width: 30rem) {
+    .c-symbol--reload {
+        width: 2.25rem;
+    }
+    .c-symbol--pokeball {
+        width: 2.25rem;
+        transform: translateY(0.4rem);
+    }
+}
+
+@media (min-width: 25rem) {
+    .c-card {
+        width: 18.75rem;
+        height: 15.625rem;
+        margin-bottom: 2em;
+    }
+    .c-card-info {
+        min-width: 18.75rem;
+        min-height: 12.5rem;
+        perspective: 18.75rem;
+    }
+
+    .c-image {
+        height: 9.375rem;
+        width: 12.5rem;
+    }
+
+    .c-figure {
+        height: 12.5rem;
+        width: 18.75rem;
+    }
+
+    .c-list-stats {
+        height: 12.5rem;
+        width: 18.75rem;
+    }
+
+    .c-span-bar {
+        height: 1.2rem;
+    }
+
+    .c-span-value {
+        margin-left: 0.5em;
+        padding-left: 0.5em;
+    }
+
+    .c-symbol--switch {
+        height: 2rem;
+        margin-bottom: 1rem;
+        padding: 0.25em;
+    }
+
+    .c-list-item {
+        grid-template-columns: 4.375rem 8.125rem auto;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 80rem) {
+    .c-card {
+        width: 28.125rem;
+        height: 23.4375rem;
+        margin-bottom: 2em;
+    }
+    .c-card-info {
+        min-width: 28.125rem;
+        min-height: 18.75rem;
+        perspective: 28.125rem;
+    }
+
+    .c-image {
+        height: 14.0625rem;
+        width: 18.75rem;
+    }
+
+    .c-figure {
+        height: 18.75rem;
+        width: 28.125rem;
+    }
+
+    .c-list-stats {
+        height: 18.75rem;
+        width: 28.125rem;
+    }
+
+    .c-span-bar {
+        height: 2rem;
+        width: auto;
+    }
+
+    .c-span-value {
+        margin-left: 0.5em;
+        padding-left: 0.5em;
+        border-left: 1px solid black;
+    }
+
+    .c-symbol--switch {
+        height: 2.5rem;
+        margin-bottom: 1rem;
+        padding: 0.25em;
+    }
+
+    .c-list-item {
+        display: grid;
+        grid-template-columns: 8rem 12rem auto;
+        font-size: 1.5rem;
+    }
+    .pokemon-win {
+        font-size: 2rem;
+    }
+}
+
+/*svg*/
+.c-btn-fight {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 74px;
+    width: 12.5rem;
+    height: 3.75rem;
     margin: auto;
 }
+
+.c-btn-fight:hover {
+    cursor: pointer;
+}
+.fist {
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+}
+#sparks {
+    opacity: 0;
+}
+#lefthand {
+    opacity: 0;
+}
+#righthand {
+    opacity: 0;
+}
+
 .c-svg-fight:hover {
     fill: rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
-.c-loader{
+.c-loader {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: black;
 }
 
 .pokemon-loss {
@@ -555,11 +719,13 @@ a:focus {
     /*kijken voor transition*/
 }
 
-.pokemon-win{
-    
+.pokemon-win {
+    background-color: white;
+    text-align: center;
+    color: green;
+    padding-top: 0.5rem;
+    margin: 0;
 }
-
-
 
 /*------------------------------------*\
 #UTILITIES

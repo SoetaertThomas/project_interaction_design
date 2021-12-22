@@ -205,10 +205,30 @@ async function fetchRandomPokemon(number_one, number_two) {
 }
 //listeners
 function toggle(number){
+    let deg = 180;
     const card = document.querySelector(`.js-card-toggle--${number}`);
-    card.addEventListener( 'click', function() {
-    card.classList.toggle('is-flipped');
+    const switch_symbol = document.querySelector(`.js-switch--${number}`);
+
+    card.addEventListener('click', function(){
+        card.classList.toggle('is-flipped');
+        switch_symbol.style.transform = `rotate(${deg}deg)`;
+        deg = deg + 180;
     });
+    
+    switch_symbol.addEventListener( 'click', function() { 
+        switch_symbol.style.transform = `rotate(${deg}deg)`;
+        deg = deg + 180;
+        //console.log(deg)
+        card.classList.toggle('is-flipped');
+    });
+}
+
+function listToReload(){
+    const reload_symbol = document.querySelector(`.js-symbol--reload`);
+    //const fight = document.getElementById("fight");
+    reload_symbol.addEventListener('click', function(){
+        location.reload();
+    }) 
 }
 
 function listenToBattle() {
@@ -217,20 +237,70 @@ function listenToBattle() {
     const card_two = document.querySelector(".js-card-two");
     const card_two_toggle = document.querySelector('.js-card-toggle--two');
     const card_one_toggle = document.querySelector('.js-card-toggle--one');
-    let winner = "";
+    const winner_one = document.querySelector('.js-pokemon-win--one');
+    const winner_two = document.querySelector('.js-pokemon-win--two');
 
+    //fist
+    const leftfist = document.querySelector('#lefthand');
+    const rightfist = document.querySelector('#righthand');
+    const sparks = document.querySelector('#sparks');
+    const svg_fight = document.querySelector('.js-svg-fight');
+    const fight = document.querySelector("#Fight");
+
+    let winner = "";
+    
     battle.addEventListener("click", function(){
+        svg_fight.classList.remove('u-none');
+        sparks.style.opacity = "1";
+        leftfist.style.opacity = "1";
+        rightfist.style.opacity = "1";
+        leftfist.style.transform = "translateX(0px)";
+        rightfist.style.transform = "translateX(0px)";
+        fight.style.display = "none";
+        
+        
         winner = calculateWinner(stats);
         if (winner == number_pokemon_one) {
             card_two.classList.add("pokemon-loss");
-            card_one.classList.add("pokemon-win");
             card_one_toggle.classList.toggle('is-flipped');
+            winner_one.classList.remove("u-none");
         }else{
             card_one.classList.add("pokemon-loss");
-            card_two.classList.add("pokemon-win");
             card_two_toggle.classList.toggle('is-flipped');
+            winner_two.classList.remove("u-none");
         }
+    }, {once : true});;
+    
+}
+function animateReload(){
+    const reload = document.querySelector(".js-symbol--reload");
+    reload.addEventListener("mouseover", function(){
+        reload.style.cursor = "pointer";
+        var tl = new TimelineMax({ paused:true, yoyo:true, repeat:1 });
+
+        TweenMax.set("#Reload", {
+        rotation: 0,
+        transformOrigin:"50% 50%"
+        });
+
+        tl
+        .to("#Reload", 0.5, {rotation:"360"})            
+        .play();  
     });
+    
+}
+
+function animateFight(){
+    var tl = new TimelineMax({ paused:true, yoyo:true, repeat:-1 });
+
+    TweenMax.set("#Fight", {
+    scale:1,
+    transformOrigin:"50% 50%"         
+    });
+
+    tl
+    .to("#Fight", 2, {scale:1.25})         
+    .play();  
 }
 
 //calculate
@@ -278,19 +348,28 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchRandomPokemon(getRandomInt(), getRandomInt());
 
     //img error fetch new random pokemon
-    const images = document.querySelectorAll(".js-image");
-    images.forEach(img => {
-        img.addEventListener("error", function () {
-        console.log("img error");
-        pokemon_one = fetchRandomPokemon(getRandomInt(), getRandomInt());
-        });
-    });
+    // const images = document.querySelectorAll(".js-image");
+    // images.forEach(img => {
+    //     img.addEventListener("error", function () {
+    //     //console.log("img error");
+    //     fetchRandomPokemon(getRandomInt(), getRandomInt());
+    //     });
+    // });
     
     //toggle cards pokemon
     toggle(number_pokemon_one);
     toggle(number_pokemon_two);
 
     //battle button
+    
     listenToBattle();
+    
+    
+    //reload button
+    listToReload();
+
+    //animation
+    animateFight();
+    animateReload();
     
 });
